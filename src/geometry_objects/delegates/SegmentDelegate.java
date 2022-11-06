@@ -54,7 +54,7 @@ public class SegmentDelegate extends FigureDelegate
 	}
 
 	/*
-	 * @param pt -- a point
+	 * @param pt -- a point 
 	 * @return true / false if this segment (finite) contains the point
 	 */
 	public static boolean pointLiesOnSegment(Segment segment, Point pt)
@@ -66,7 +66,7 @@ public class SegmentDelegate extends FigureDelegate
 
 	/*
 	 * @param pt -- a point
-	 * @return true if the point is on the segment (EXcluding endpoints); finite examination only
+	 * @return true if the point is on the segment (Excluding endpoints); finite examination only
 	 */
 	public static boolean pointLiesBetweenEndpoints(Segment segment, Point pt)
 	{

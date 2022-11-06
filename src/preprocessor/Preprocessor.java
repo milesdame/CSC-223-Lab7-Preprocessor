@@ -1,6 +1,7 @@
 package preprocessor;
 
 import java.util.HashMap;
+import geometry_objects.delegates.SegmentDelegate;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -67,7 +68,7 @@ public class Preprocessor
 		//
 		// Implicit Segments attributed to implicit points
 		//
-		_implicitSegments = computeImplicitBaseSegments(_implicitPoints);
+		_implicitSegments = computeImplicitBaseSegments(_implicitPoints); 
 
 		//
 		// Combine the given minimal segments and implicit segments into a true set of minimal segments
@@ -86,5 +87,27 @@ public class Preprocessor
 		//
 		_allMinimalSegments.forEach((segment) -> _segmentDatabase.put(segment, segment));
 		_nonMinimalSegments.forEach((segment) -> _segmentDatabase.put(segment, segment));
+	}
+
+	private Set<Segment> identifyAllMinimalSegments(Set<Point> _implicitPoints2, Set<Segment> _givenSegments2,
+			Set<Segment> _implicitSegments2) {
+		
+		Set<Segment> implicitSegments = _implicitSegments2;
+		
+		for (Point p : _implicitPoints2) {
+			for (Segment s : _givenSegments2) {
+				if (SegmentDelegate.pointLiesOnSegment(s, p)) {
+					implicitSegments.add(new Segment(s.getPoint1(), p));
+					implicitSegments.add(new Segment(s.getPoint2(), p));
+				}
+			}
+		}
+		
+		return implicitSegments;
+	}
+
+	private Set<Segment> computeImplicitBaseSegments(Set<Point> _implicitPoints2) {
+		
+		return null;
 	}
 }
