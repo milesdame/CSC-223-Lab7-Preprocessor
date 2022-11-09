@@ -36,6 +36,7 @@ public class FileUtilities
 	public static String readFileFilterComments(String filepath)
 	{
 		StringBuilder builder = new StringBuilder();
+		System.out.println(filepath);
 		try (BufferedReader br = new BufferedReader(new FileReader(filepath))) 
 		{
 		    String line;

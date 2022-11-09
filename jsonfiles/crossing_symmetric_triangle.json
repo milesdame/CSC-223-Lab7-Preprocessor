@@ -1,11 +1,10 @@
-//    "Comment" : "  A                                 
-//                  / \                                
-//                 B___C                               
-//                / \ / \                              
-//               /   X   \  X is not a specified point (it is implied) 
-//              D_________E         
-{
-"Figure" :
+//                   A
+//                  / \
+//                 B___C
+//                / \ / \
+//               /   X   \  X is not a specified point (it is implied)
+//              D_________E
+{"Figure" :
   { "Description" : "Crossing symmetric triangle construction.",
     "Points" :
 	  [
@@ -33,9 +32,9 @@
 	      "name" : "E",
 		  "x" : 6,
    	      "y" : 0
-		}	    
+		}
 	  ],
-  
+
     "Segments" :
       [
 	    {"A" : ["B", "C"] },

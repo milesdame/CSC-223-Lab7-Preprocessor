@@ -77,7 +77,8 @@ public class JSONParser
 	{
 		// Parsing is accomplished via the JSONTokenizer class
 		JSONTokener tokenizer = new JSONTokener(str);
-		JSONObject  JSONroot = (JSONObject)tokenizer.nextValue();
+		System.out.println(str);
+		JSONObject  JSONroot = (JSONObject) tokenizer.nextValue();
 		
 		try
 			{
