@@ -71,6 +71,7 @@ public class Segment extends GeometricObject
 	public boolean HasSubSegment(Segment candidate)
 	{
         // TODO
+		
 	}
 
 	/**
@@ -172,7 +173,6 @@ public class Segment extends GeometricObject
 	{
 		SortedSet<Point> pointsOn = new TreeSet<Point>();
 
-        // TODO
 		// Loop through all of the points
 		for (Point p : points) {
 			// If a point is on the segment then add it to the pointsOn Set

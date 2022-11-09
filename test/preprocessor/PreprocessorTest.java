@@ -33,6 +33,37 @@ class PreprocessorTest
 		assertEquals(expected, actual);
 	}
 	
+	@Test
+	void test_implicit_points_and_segments() {
+		FigureNode fig = InputFacade.extractFigure("crossing_symmetric_triangle.json");
+
+		Map.Entry<PointDatabase, Set<Segment>> pair = InputFacade.toGeometryRepresentation(fig);
+
+		PointDatabase points = pair.getKey();
+
+		Set<Segment> segments = pair.getValue();
+
+		Preprocessor pp = new Preprocessor(points, segments);
+		
+		// 5 new implied points inside the pentagon
+		Set<Point> iPoints = ImplicitPointPreprocessor.compute(points, new ArrayList<Segment>(segments));
+		assertEquals(5, iPoints.size());
+
+		System.out.println(iPoints);
+		
+		//	     A                                 
+		//      / \                                
+		//     B___C                               
+		//    / \ / \                              
+		//   /   X   \  X is not a specified point (it is implied) 
+		//  D_________E      
+		
+		Point x_point = new Point(3, 3);
+		
+		assertTrue(iPoints.contains(x_point));
+		
+	}
+	
 	
 	@Test
 	void test_implicit_crossings()
