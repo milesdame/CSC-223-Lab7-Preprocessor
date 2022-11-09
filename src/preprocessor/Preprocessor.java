@@ -1,6 +1,7 @@
 package preprocessor;
 
 import java.util.ArrayList;
+import java.lang.reflect.Array;
 import java.util.HashMap;
 import geometry_objects.delegates.SegmentDelegate;
 import java.util.HashSet;
@@ -78,7 +79,7 @@ public class Preprocessor
 		//
 		// Implicit Segments attributed to implicit points
 		//
-		_implicitSegments = computeImplicitBaseSegments(_implicitPoints); 
+		_implicitSegments = computeImplicitBaseSegments(_implicitPoints, _givenSegments, _implicitSegments); 
 
 		//
 		// Combine the given minimal segments and implicit segments into a true set of minimal segments
@@ -86,6 +87,7 @@ public class Preprocessor
 		//     * implicitSegmen
 		//
 		_allMinimalSegments = identifyAllMinimalSegments(_implicitPoints, _givenSegments, _implicitSegments);
+		
 
 		//
 		// Construct all segments inductively from the base segments
@@ -99,22 +101,56 @@ public class Preprocessor
 		_nonMinimalSegments.forEach((segment) -> _segmentDatabase.put(segment, segment));
 	}
 
-
+	/**
+	 * 
+	 * @param _implicitPoints2
+	 * @param _givenSegments2
+	 * @param _implicitSegments2
+	 * @return
+	 */
 	public Set<Segment> identifyAllMinimalSegments(Set<Point> _implicitPoints2, Set<Segment> _givenSegments2,
+
 			Set<Segment> _implicitSegments2) {
+		Set<Segment> allMinimalSegments = _implicitSegments2;
+		Set<Point> points = this.combinePoints(_implicitPoints2, _pointDatabase.getPoints());
 		
-		Set<Segment> implicitSegments = _implicitSegments2;
-		
-		for (Point p : _implicitPoints2) {
-			for (Segment s : _givenSegments2) {
-				if (SegmentDelegate.pointLiesOnSegment(s, p)) {
-					implicitSegments.add(new Segment(s.getPoint1(), p));
-					implicitSegments.add(new Segment(s.getPoint2(), p));
-				}
+		// Loop through all of the given segments
+		for (Segment s : _givenSegments2) {
+			
+			// Get a sorted array of all the points on the segment
+			SortedSet<Point> pointsOn = s.collectOrderedPointsOnSegment(points);
+			Object[] pArray = pointsOn.toArray();
+			
+			// Loop through the points and create segments from the current point and the next 
+			// point until the second to last point
+			for (int i = 0; i < pArray.length - 1; i++) {
+				Point p1 = (Point) pArray[i];
+				Point p2 = (Point) pArray[i+1];
+				
+				// Add the points as a new segment to the allMinimalSegments Set
+				allMinimalSegments.add(new Segment(p1, p2));
 			}
 		}
 		
-		return implicitSegments;
+		
+		return allMinimalSegments;
+		
+	}
+	
+	/**
+	 * 
+	 * @param ps1
+	 * @param ps2
+	 * @return
+	 */
+	private Set<Point> combinePoints(Set<Point> ps1, Set<Point> ps2) {
+		Set<Point> allPoints = ps1;
+		
+		for (Point p : ps2) {
+			allPoints.add(p);
+		}
+		
+		return allPoints;
 	}
 
 	/**
@@ -155,7 +191,49 @@ public class Preprocessor
 	}
 	
 	public Set<Segment> computeImplicitBaseSegments(Set<Point> _implicitPoints2) {
+	 * 
+	 * @param _implicitPoints2
+	 * @param _givenSegments2
+	 * @param _implicitSegments2
+	 * @return
+	 */
+	private Set<Segment> computeImplicitBaseSegments(Set<Point> _implicitPoints2, Set<Segment> _givenSegments2, Set<Segment> _implicitSegments2) {
+		// TODO
+		Set<Segment> implicitSegments = _implicitSegments2;
+		Set<Point> points = this.combinePoints(_implicitPoints2, _pointDatabase.getPoints());
+		// Check each implicit point to see if it lies on any of the given segments
+		// If it does then create segments using the implicit point and the points that make up that segment
+		// But how do I know that the end points of a given segment are the correct end points for the minimal segments for the implicit points
 		
-		return null;
+		// Loop through the implicit points 
+		for (Point p : _implicitPoints2) {
+			// Loop through the given segments
+			for (Segment s : _givenSegments2) {
+				// Get a sorted set of all points on the current segment
+				Set<Point> pointsOn = s.collectOrderedPointsOnSegment(points);
+				Object[] pArray = pointsOn.toArray();
+				// Loop through the array of points 
+				for (int i = 0; i < pArray.length - 1; i++) {
+					// Check to see if  the implicit point is on the segment
+					if (pArray[i].equals(p)) {
+						// If it is then create two new segments containing the implicit point and the points before and after it
+						Point p1 = (Point) pArray[i - 1];
+						Point p2 = (Point) pArray[i];
+						Point p3 = (Point) pArray[i + 1];
+						// Add these new segments to the implicitSegments Set
+						implicitSegments.add(new Segment(p1, p2));
+						implicitSegments.add(new Segment(p2, p3));
+					}
+				}
+				
+			}
+		}
+			
+		
+		
+		
+
+		
+		return implicitSegments;
 	}
 }
