@@ -47,7 +47,7 @@ class PreprocessorTest
 		
 		// 5 new implied points inside the pentagon
 		Set<Point> iPoints = ImplicitPointPreprocessor.compute(points, new ArrayList<Segment>(segments));
-		assertEquals(5, iPoints.size());
+		assertEquals(1, iPoints.size());
 
 		System.out.println(iPoints);
 		
@@ -60,7 +60,14 @@ class PreprocessorTest
 		
 		Point x_point = new Point(3, 3);
 		
+		// Check if the implicit point has been processed and added
 		assertTrue(iPoints.contains(x_point));
+		
+		// Check if the implicit segments have all been detected and processed.
+		Set<Segment> iSegments = pp.computeImplicitBaseSegments(iPoints);
+		assertEquals(4, iSegments.size());
+		
+		//
 		
 	}
 	

@@ -200,7 +200,7 @@ public class Preprocessor
 	 * @param _implicitSegments2
 	 * @return
 	 */
-	public Set<Segment> computeImplicitBaseSegments(Set<Point> _implicitPoints2, Set<Segment> _givenSegments2, Set<Segment> _implicitSegments2) {
+	public Set<Segment> computeImplicitBaseSegments(Set<Point> _implicitPoints2) {
 		Set<Segment> implicitSegments = new TreeSet<Segment>();
 		
 		Set<Point> points = this.combinePoints(_implicitPoints2, _pointDatabase.getPoints());
