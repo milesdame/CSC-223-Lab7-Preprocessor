@@ -190,14 +190,14 @@ public class Preprocessor
 		return constructAllNonMinimalSegmentsHelper(nonminimal, nonminimal);
 	}
 	
-	public Set<Segment> computeImplicitBaseSegments(Set<Point> _implicitPoints2) {
+	/*
 	 * 
 	 * @param _implicitPoints2
 	 * @param _givenSegments2
 	 * @param _implicitSegments2
 	 * @return
 	 */
-	private Set<Segment> computeImplicitBaseSegments(Set<Point> _implicitPoints2, Set<Segment> _givenSegments2, Set<Segment> _implicitSegments2) {
+	public Set<Segment> computeImplicitBaseSegments(Set<Point> _implicitPoints2, Set<Segment> _givenSegments2, Set<Segment> _implicitSegments2) {
 		// TODO
 		Set<Segment> implicitSegments = _implicitSegments2;
 		Set<Point> points = this.combinePoints(_implicitPoints2, _pointDatabase.getPoints());
@@ -229,11 +229,6 @@ public class Preprocessor
 			}
 		}
 			
-		
-		
-		
-
-		
 		return implicitSegments;
 	}
 }

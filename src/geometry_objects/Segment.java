@@ -70,7 +70,7 @@ public class Segment extends GeometricObject
 
 	public boolean HasSubSegment(Segment candidate)
 	{
-        // TODO
+        return this.pointLiesOn(candidate._point1) && this.pointLiesOn(candidate._point2);
 	}
 
 	/**
@@ -150,18 +150,12 @@ public class Segment extends GeometricObject
 	 */
 	public boolean coincideWithoutOverlap(Segment that)
 	{
-		// if the slopes are not equal, they do not coincide
-		if (! MathUtilities.doubleEquals(_slope, that.slope())) return false;
-		
-		// now check for intersections
-		if (this.segmentIntersection(that) != null) return false;
-			
-		// now, check that they do actually coincide
-		// 
-//		double dist1 = GeometryUtilities.distance(this._point1, that._point1);
-//		double dist2 = GeometryUtilities.distance(this._point1, that._point2);
-		
-		return true;
+		// check if they are collinear. then, check that there is no overlap
+		if (LineDelegate.areCollinear(this, that)) {
+			if (pointLiesOnSegment(that._point1) || pointLiesOnSegment(that._point2)) return false;
+			return true;
+		}
+		return false;
 	}
 	
 	/**
