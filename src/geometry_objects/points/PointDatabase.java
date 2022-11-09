@@ -126,4 +126,8 @@ public class PointDatabase
 	{
 		return _factory.get(x, y);
 	}
+	
+	public boolean contains(double x, double y) { return _factory.contains(x,y); }
+	public boolean contains(Point pt) { return _factory.contains(pt); }
+	
 }
