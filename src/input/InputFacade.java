@@ -46,6 +46,11 @@ public class InputFacade
 	{
 
 		FigureNode figNode = extractFigure(filename);
+		return InputFacade.toGeometryRepresentation(figNode);
+		
+	}
+	
+	public static Map.Entry<PointDatabase, Set<Segment>> toGeometryRepresentation(FigureNode figNode){
 		PointDatabase pointData = new PointDatabase();
 		LinkedHashSet<Segment> segData = new LinkedHashSet<Segment>();
 		

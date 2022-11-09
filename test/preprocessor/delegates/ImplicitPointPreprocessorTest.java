@@ -53,7 +53,6 @@ public class ImplicitPointPreprocessorTest {
 		
 		Set<Point> expected = new LinkedHashSet<Point>(Arrays.asList(bc.segmentIntersection(ad)));
 		Set<Point> actual = ImplicitPointPreprocessor.compute(pts, segs);
-		
 		assertEquals(expected, actual);
 	}
 }

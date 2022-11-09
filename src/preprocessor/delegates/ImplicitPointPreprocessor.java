@@ -26,10 +26,10 @@ public class ImplicitPointPreprocessor
 		Set<Point> implicitPoints = new LinkedHashSet<Point>();
         
 		// for each segment in the list of segments...
-		for (int i = 0; i < givenSegments.size() - 1; i++) {
+		for (int i = 0; i < givenSegments.size(); i++) {
 			
 			// check for an intersection between this point (i) and that point (j)
-			for (int j = 0; j < givenSegments.size() - 1; i++) {
+			for (int j = 0; j < givenSegments.size(); i++) {
 				if (i == j) continue;
         		Point impPoint = givenSegments.get(i).segmentIntersection(givenSegments.get(j));
         		if (!givenPoints.contains(impPoint)) implicitPoints.add(impPoint);

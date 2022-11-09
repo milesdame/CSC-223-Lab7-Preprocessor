@@ -1,5 +1,6 @@
 package preprocessor;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import geometry_objects.delegates.SegmentDelegate;
 import java.util.HashSet;
@@ -54,6 +55,15 @@ public class Preprocessor
 		
 		analyze();
 	}
+	
+	/**
+	 * for testing purposes ONLY
+	 */
+	public Preprocessor() {
+		_pointDatabase  = new PointDatabase();
+		_givenSegments = new LinkedHashSet<Segment>();
+		_segmentDatabase = new HashMap<Segment, Segment>();
+	}
 
 	/**
 	 * Invoke the precomputation procedure.
@@ -89,7 +99,8 @@ public class Preprocessor
 		_nonMinimalSegments.forEach((segment) -> _segmentDatabase.put(segment, segment));
 	}
 
-	private Set<Segment> identifyAllMinimalSegments(Set<Point> _implicitPoints2, Set<Segment> _givenSegments2,
+
+	public Set<Segment> identifyAllMinimalSegments(Set<Point> _implicitPoints2, Set<Segment> _givenSegments2,
 			Set<Segment> _implicitSegments2) {
 		
 		Set<Segment> implicitSegments = _implicitSegments2;
@@ -106,7 +117,44 @@ public class Preprocessor
 		return implicitSegments;
 	}
 
-	private Set<Segment> computeImplicitBaseSegments(Set<Point> _implicitPoints2) {
+	/**
+	 * given all minimal segments, find all non-minimal segments
+	 *
+	 * @param minimalSegs - all minimal segments
+	 * @return set of all non-minimal segments
+	 */
+	public Set<Segment> constructAllNonMinimalSegments(Set<Segment> minimalSegs) {
+		
+		ArrayList<Segment> minimalSegList = new ArrayList<Segment>();
+		minimalSegList.addAll(minimalSegs);
+		
+		return constructAllNonMinimalSegmentsHelper(minimalSegList, new ArrayList<Segment>());
+	}
+	
+	private Set<Segment> constructAllNonMinimalSegmentsHelper(ArrayList<Segment> segments, ArrayList<Segment> nonminimal) {
+
+		// for each segment in our list...
+		for (int i = 0; i < segments.size(); i++) {
+			
+			// check against all other segments...
+			for (int j = 0; j < segments.size(); j++) {
+				if (i == j) continue;
+				Segment seg1 = segments.get(i);
+				Segment seg2 = segments.get(j);
+				
+				// if they are collinear, the new non-minimal segment is formed by the two non-shared (outer) points
+				if (seg1.isCollinearWith(seg2)) {
+					Point midpoint = seg1.sharedVertex(seg2);
+					nonminimal.add(new Segment(seg1.other(midpoint), seg2.other(midpoint)));
+				}
+			}
+		}
+		// if we found no more non-minimal segments, we are done
+		if (nonminimal.isEmpty()) return new LinkedHashSet<Segment>(segments);
+		return constructAllNonMinimalSegmentsHelper(nonminimal, nonminimal);
+	}
+	
+	public Set<Segment> computeImplicitBaseSegments(Set<Point> _implicitPoints2) {
 		
 		return null;
 	}

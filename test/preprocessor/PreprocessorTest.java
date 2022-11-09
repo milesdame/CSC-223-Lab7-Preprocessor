@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -19,6 +20,20 @@ import preprocessor.delegates.ImplicitPointPreprocessor;
 
 class PreprocessorTest
 {
+	// use for tests that don't require the preprocessor to be initialized with anything specific
+	protected Preprocessor preprocessor = new Preprocessor();
+	
+	@Test
+	void test_constructAllNonMinimalSegments_empty() {
+		Set<Segment> min = new LinkedHashSet<Segment>();
+		
+		Set<Segment> expected = new LinkedHashSet<Segment>();
+		Set<Segment> actual = preprocessor.constructAllNonMinimalSegments(min);
+		
+		assertEquals(expected, actual);
+	}
+	
+	
 	@Test
 	void test_implicit_crossings()
 	{
