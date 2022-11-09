@@ -6,6 +6,12 @@ import geometry_objects.points.Point;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
+
 public class SegmentTest {
 	
 	// hasSubsegment
@@ -158,4 +164,70 @@ public class SegmentTest {
 	// collectOrderedPointsOnSegment
 	
 	@Test
+	void test_collectOrderedPointsOnSegment_empty() {
+		Segment seg = new Segment(new Point(0,0), new Point(1,1));
+		Set<Point> pts = new HashSet<Point>();
+		
+		SortedSet<Point> expected = new TreeSet<Point>();
+		SortedSet<Point> actual = seg.collectOrderedPointsOnSegment(pts);
+		
+		assertEquals(expected, actual);
+	}
+	
+	
+	@Test
+	void test_collectOrderedPointsOnSegment_noPointsOn() {
+		Segment seg = new Segment(new Point(0,0), new Point(2,0));
+		Set<Point> pts = new HashSet<Point>(Arrays.asList(new Point(1,1), new Point(0, 0.1), new Point(2.01, 0), new Point(-0.01, -0.1)));
+		
+		SortedSet<Point> expected = new TreeSet<Point>();
+		SortedSet<Point> actual = seg.collectOrderedPointsOnSegment(pts);
+		
+		assertEquals(expected, actual);
+	}
+	
+	@Test
+	void test_collectOrderedPointsOnSegment_OnePointOnEndpoint() {
+		Segment seg = new Segment(new Point(0,0), new Point(1,1));
+		Set<Point> pts = new HashSet<Point>(Arrays.asList(new Point(0,0)));
+		
+		SortedSet<Point> expected = new TreeSet<Point>(Arrays.asList(new Point(0,0)));
+		SortedSet<Point> actual = seg.collectOrderedPointsOnSegment(pts);
+		
+		assertEquals(expected, actual);
+	}
+	
+	@Test
+	void test_collectOrderedPointsOnSegment_OnePointInMiddle() {
+		Segment seg = new Segment(new Point(0,0), new Point(2,0));
+		Set<Point> pts = new HashSet<Point>(Arrays.asList(new Point(1,0)));
+		
+		SortedSet<Point> expected = new TreeSet<Point>(Arrays.asList(new Point(1,0)));
+		SortedSet<Point> actual = seg.collectOrderedPointsOnSegment(pts);
+		
+		assertEquals(expected, actual);
+	}
+	
+	@Test
+	void test_collectOrderedPointsOnSegment_ManyPointsOn() {
+		Segment seg = new Segment(new Point(0,0), new Point(2,0));
+		Set<Point> pts = new HashSet<Point>(Arrays.asList(new Point(0.1, 0), new Point(1.5, 0), new Point(2,0)));
+		
+		SortedSet<Point> expected = new TreeSet<Point>(Arrays.asList(new Point(0.1, 0), new Point(1.5, 0), new Point(2,0)));
+		SortedSet<Point> actual = seg.collectOrderedPointsOnSegment(pts);
+		
+		assertEquals(expected, actual);
+	}
+	
+	@Test
+	void test_collectOrderedPointsOnSegment_SomeOnSomeNot() {
+		Segment seg = new Segment(new Point(0,0), new Point(2,0));
+		Set<Point> pts = new HashSet<Point>(Arrays.asList(new Point(0.1, 0), new Point(0.1, 0.1), new Point(1.5, 0), new Point(2.001, 0), new Point(2,0)));
+		
+		SortedSet<Point> expected = new TreeSet<Point>(Arrays.asList(new Point(0.1, 0), new Point(1.5, 0), new Point(2,0)));
+		SortedSet<Point> actual = seg.collectOrderedPointsOnSegment(pts);
+		
+		assertEquals(expected, actual);
+	}
+	
 }
