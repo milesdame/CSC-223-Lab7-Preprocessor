@@ -174,4 +174,10 @@ public class Segment extends GeometricObject
 
 		return pointsOn;
 	}
+	
+	public String toString() {
+		String str = "";
+		
+		return str + this.getPoint1().getName() + this.getPoint2().getName();
+	}
 }

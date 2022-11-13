@@ -201,8 +201,8 @@ public class Preprocessor
 	 * @return
 	 */
 	public Set<Segment> computeImplicitBaseSegments(Set<Point> _implicitPoints2) {
-		Set<Segment> implicitSegments = new TreeSet<Segment>();
-		
+		Set<Segment> implicitSegments = new HashSet<Segment>();
+		System.out.println("Implicit Points: " + _implicitPoints2.toString());
 		Set<Point> points = this.combinePoints(_implicitPoints2, _pointDatabase.getPoints());
 		// Check each implicit point to see if it lies on any of the given segments
 		// If it does then create segments using the implicit point and the points that make up that segment
@@ -210,32 +210,41 @@ public class Preprocessor
 		
 		// Loop through the implicit points 
 		for (Point p : _implicitPoints2) {
-			
+			int loop = 1;
+			System.out.println("LOOP" + loop);
 			// Loop through the given segments
 			for (Segment s : _givenSegments) {
-				
+			System.out.println(s.toString());	
+			
 				// Get a sorted set of all points on the current segment
 				Set<Point> pointsOn = s.collectOrderedPointsOnSegment(points);
-				Object[] pArray = pointsOn.toArray();
+				Object[] segmentPoints = pointsOn.toArray();
 				
-				// Loop through the array of points 
-				for (int i = 0; i < pArray.length - 1; i++) {
-					
-					// Check to see if  the implicit point is on the segment
-					if (pArray[i].equals(p)) {
-						
-						// If it is then create two new segments containing the implicit point and the points before and after it
-						Point p1 = (Point) pArray[i - 1];
-						Point p2 = (Point) pArray[i];
-						Point p3 = (Point) pArray[i + 1];
-						
-						// Add these new segments to the implicitSegments Set
-						implicitSegments.add(new Segment(p1, p2));
-						implicitSegments.add(new Segment(p2, p3));
+				//Check if the implicit point lies on the segment
+				System.out.println("point on line:" + s.pointLiesOn(p));
+				System.out.println(p);
+				if(s.pointLiesOn(p)) {
+					System.out.println("Points on line: " + pointsOn.toString());
+					// Loop through the array of points 
+					for (int i = 0; i < segmentPoints.length; i++) {
+						// Check to see if  the implicit point is on the segment
+						if (segmentPoints[i].equals(p)) {
+							System.out.println("point 1: " + segmentPoints[i] + ", point 2: " + p.toString());
+							// If it is then create two new segments containing the implicit point and the points before and after it
+							System.out.println("implicit index: " + i);
+							Point p1 = (Point) segmentPoints[i - 1];
+							Point p2 = (Point) segmentPoints[i];
+							Point p3 = (Point) segmentPoints[i + 1];
+							System.out.println("Point 1: " + p1.toString() + ", Point 2: " + p2.toString() + ", Point 3: " + p3.toString());
+							// Add these new segments to the implicitSegments Set
+							implicitSegments.add(new Segment(p1, p2));
+							implicitSegments.add(new Segment(p2, p3));
+						}
 					}
 				}
-				
+				loop += 1;
 			}
+			
 		}
 			
 		return implicitSegments;
