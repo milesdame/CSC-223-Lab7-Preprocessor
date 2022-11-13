@@ -47,7 +47,6 @@ class PreprocessorTest
 		
 		// 5 new implied points inside the pentagon
 		Set<Point> iPoints = ImplicitPointPreprocessor.compute(points, new ArrayList<Segment>(segments));
-		System.out.println("Implicit points: " + iPoints.toString());
 		assertEquals(1, iPoints.size());
 		
 		//	     A                                 
@@ -100,7 +99,7 @@ class PreprocessorTest
 		Set<Point> iPoints = ImplicitPointPreprocessor.compute(points, new ArrayList<Segment>(segments));
 		assertEquals(5, iPoints.size());
 
-		System.out.println(iPoints);
+		//System.out.println(iPoints);
 
 		//
 		//
@@ -172,14 +171,39 @@ class PreprocessorTest
 		
 		Set<Segment> minimalSegments = pp.identifyAllMinimalSegments(iPoints, segments, iSegments);
 		assertEquals(expectedMinimalSegments.size(), minimalSegments.size());
-
-		for (Segment minimalSeg : minimalSegments)
-		{
-			System.out.println(minimalSeg);
+		
+//		
+//		System.out.println("expected minimal segments: ");
+//		for (Segment minimalSeg : expectedMinimalSegments)
+//		{
+//			System.out.println(minimalSeg.getPoint1());
+//			System.out.println(minimalSeg.getPoint2());
+//			System.out.println("---------");
+//		}
+//		
+//		System.out.println("all found minimal segments: ");
+//		for (Segment minimalSeg : minimalSegments)
+//		{
+//			System.out.println(minimalSeg.getPoint1());
+//			System.out.println(minimalSeg.getPoint2());
+//			System.out.println("---------");
+//		}
+		
+		
+		for (Point pt : points.getPoints()) {
+			System.out.println(pt);
 		}
 		
+		System.out.println(points.getPoint("C") + "" + points.getPoint("D"));
+		
+		System.out.println("checking minimal segments: ");
 		for (Segment minimalSeg : minimalSegments)
 		{
+			System.out.println(expectedMinimalSegments.contains(minimalSeg));
+			
+			System.out.println(minimalSeg.getPoint1());
+			System.out.println(minimalSeg.getPoint2());
+			System.out.println("---------");
 			assertTrue(expectedMinimalSegments.contains(minimalSeg));
 		}
 		

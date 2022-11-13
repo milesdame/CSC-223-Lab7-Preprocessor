@@ -90,10 +90,8 @@ public class PointDatabase
 	public Point getPoint(String name)
 	{
 
-		List<Point> pointList = new ArrayList<Point>(_factory.getAllPoints());
-		
-		for(Point p: pointList) {
-			if(p._name == name) {return p;}
+		for(Point p: this.getPoints()) {
+			if(p._name.equals(name)) {return p;}
 		}
 		return null;
 		

@@ -30,7 +30,7 @@ public class ImplicitPointPreprocessor
 			
 			// check for an intersection between this point (i) and that point (j)
 			for (int j = 0; j < givenSegments.size(); j++) {
-				System.out.println("index:" + j);
+				
 				if (i == j) continue;
         		Point impPoint = givenSegments.get(i).segmentIntersection(givenSegments.get(j));
         		if (!givenPoints.contains(impPoint) && impPoint != null) implicitPoints.add(impPoint);
