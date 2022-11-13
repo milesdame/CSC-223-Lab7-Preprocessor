@@ -143,4 +143,10 @@ public class Point implements Comparable<Point>
 		return false;
 	}
 	
+	public String toString() {
+		String str = "";
+		
+		return str + "Name: " + this.getName() + ", X: " + this.getX() + ", Y: " + this.getY();
+	}
+	
 }
