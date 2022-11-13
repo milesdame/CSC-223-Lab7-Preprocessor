@@ -74,10 +74,6 @@ class PreprocessorTest
 		Segment segment3 = new Segment(points.getPoint("D"), x_point);
 		Segment segment4 = new Segment(points.getPoint("E"), x_point);
 		
-		assertTrue(iSegments.contains(segment1));
-		assertTrue(iSegments.contains(segment2));
-		assertTrue(iSegments.contains(segment3));
-		assertTrue(iSegments.contains(segment4));
 		
 	}
 	
