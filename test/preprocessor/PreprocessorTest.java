@@ -47,9 +47,8 @@ class PreprocessorTest
 		
 		// 5 new implied points inside the pentagon
 		Set<Point> iPoints = ImplicitPointPreprocessor.compute(points, new ArrayList<Segment>(segments));
+		System.out.println("Implicit points: " + iPoints.toString());
 		assertEquals(1, iPoints.size());
-
-		System.out.println(iPoints);
 		
 		//	     A                                 
 		//      / \                                

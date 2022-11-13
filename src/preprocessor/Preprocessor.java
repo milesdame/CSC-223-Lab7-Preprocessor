@@ -184,7 +184,6 @@ public class Preprocessor
 				// if they are collinear, the new non-minimal segment is formed by the two non-shared (outer) points
 				if (seg1.isCollinearWith(seg2) && seg1.sharedVertex(seg2) != null) {
 					Point midpoint = seg1.sharedVertex(seg2);
-					System.out.println("shared vertex: " + midpoint);
 					newNonMinimal.add(new Segment(seg1.other(midpoint), seg2.other(midpoint)));
 				}
 			}
