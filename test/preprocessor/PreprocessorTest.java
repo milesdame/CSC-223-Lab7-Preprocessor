@@ -66,7 +66,19 @@ class PreprocessorTest
 		Set<Segment> iSegments = pp.computeImplicitBaseSegments(iPoints);
 		assertEquals(4, iSegments.size());
 		
-		//
+
+
+		List<Segment> expectedISegments = new ArrayList<Segment>();
+		
+		Segment segment1 = new Segment(points.getPoint("B"), x_point);
+		Segment segment2 = new Segment(points.getPoint("C"), x_point);
+		Segment segment3 = new Segment(points.getPoint("D"), x_point);
+		Segment segment4 = new Segment(points.getPoint("E"), x_point);
+		
+		assertTrue(iSegments.contains(segment1));
+		assertTrue(iSegments.contains(segment2));
+		assertTrue(iSegments.contains(segment3));
+		assertTrue(iSegments.contains(segment4));
 		
 	}
 	
