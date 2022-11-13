@@ -145,7 +145,7 @@ public class Preprocessor
 	 * @return
 	 */
 	private Set<Point> combinePoints(Set<Point> ps1, Set<Point> ps2) {
-		Set<Point> allPoints = ps1;
+		Set<Point> allPoints = new LinkedHashSet<Point>(ps1);
 		
 		for (Point p : ps2) {
 			allPoints.add(p);
@@ -210,6 +210,8 @@ public class Preprocessor
 		
 		// Loop through the implicit points 
 		for (Point p : _implicitPoints2) {
+			
+			System.out.println("Implicit Points: " + _implicitPoints2.toString());
 			int loop = 1;
 			System.out.println("LOOP" + loop);
 			// Loop through the given segments
@@ -223,12 +225,17 @@ public class Preprocessor
 				//Check if the implicit point lies on the segment
 				System.out.println("point on line:" + s.pointLiesOn(p));
 				System.out.println(p);
+				
 				if(s.pointLiesOn(p)) {
+					
 					System.out.println("Points on line: " + pointsOn.toString());
 					// Loop through the array of points 
+					
 					for (int i = 0; i < segmentPoints.length; i++) {
 						// Check to see if  the implicit point is on the segment
+						
 						if (segmentPoints[i].equals(p)) {
+							
 							System.out.println("point 1: " + segmentPoints[i] + ", point 2: " + p.toString());
 							// If it is then create two new segments containing the implicit point and the points before and after it
 							System.out.println("implicit index: " + i);
