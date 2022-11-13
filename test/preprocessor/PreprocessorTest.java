@@ -164,6 +164,11 @@ class PreprocessorTest
 
 		for (Segment minimalSeg : minimalSegments)
 		{
+			System.out.println(minimalSeg);
+		}
+		
+		for (Segment minimalSeg : minimalSegments)
+		{
 			assertTrue(expectedMinimalSegments.contains(minimalSeg));
 		}
 		

@@ -33,7 +33,7 @@ public class ImplicitPointPreprocessor
 				System.out.println("index:" + j);
 				if (i == j) continue;
         		Point impPoint = givenSegments.get(i).segmentIntersection(givenSegments.get(j));
-        		if (!givenPoints.contains(impPoint)) implicitPoints.add(impPoint);
+        		if (!givenPoints.contains(impPoint) && impPoint != null) implicitPoints.add(impPoint);
 			}
 		}
 		
