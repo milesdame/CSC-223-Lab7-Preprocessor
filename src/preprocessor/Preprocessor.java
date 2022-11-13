@@ -165,11 +165,13 @@ public class Preprocessor
 		ArrayList<Segment> minimalSegList = new ArrayList<Segment>();
 		minimalSegList.addAll(minimalSegs);
 
-		return constructAllNonMinimalSegmentsHelper(minimalSegList, new ArrayList<Segment>());
+		return constructAllNonMinimalSegmentsHelper(minimalSegList);
 	}
 
-	private Set<Segment> constructAllNonMinimalSegmentsHelper(ArrayList<Segment> segments, ArrayList<Segment> nonminimal) {
-
+	private Set<Segment> constructAllNonMinimalSegmentsHelper(ArrayList<Segment> segments) {
+		
+		ArrayList<Segment> newNonMinimal = new ArrayList<Segment>();
+		
 		// for each segment in our list...
 		for (int i = 0; i < segments.size(); i++) {
 
@@ -183,13 +185,15 @@ public class Preprocessor
 				if (seg1.isCollinearWith(seg2) && seg1.sharedVertex(seg2) != null) {
 					Point midpoint = seg1.sharedVertex(seg2);
 					System.out.println("shared vertex: " + midpoint);
-					nonminimal.add(new Segment(seg1.other(midpoint), seg2.other(midpoint)));
+					newNonMinimal.add(new Segment(seg1.other(midpoint), seg2.other(midpoint)));
 				}
 			}
 		}
 		// if we found no more non-minimal segments, we are done
-		if (nonminimal.isEmpty()) return new LinkedHashSet<Segment>(segments);
-		return constructAllNonMinimalSegmentsHelper(nonminimal, nonminimal);
+		if (newNonMinimal.isEmpty()) return new LinkedHashSet<Segment>(segments);
+		
+		// repeat process until all possible non minimal segments are found
+		return constructAllNonMinimalSegmentsHelper(newNonMinimal);
 	}
 
 	/*
