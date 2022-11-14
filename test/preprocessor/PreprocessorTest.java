@@ -65,16 +65,55 @@ class PreprocessorTest
 		Set<Segment> iSegments = pp.computeImplicitBaseSegments(iPoints);
 		assertEquals(4, iSegments.size());
 		
-
-
-		List<Segment> expectedISegments = new ArrayList<Segment>();
-		
 		Segment segment1 = new Segment(points.getPoint("B"), x_point);
 		Segment segment2 = new Segment(points.getPoint("C"), x_point);
 		Segment segment3 = new Segment(points.getPoint("D"), x_point);
 		Segment segment4 = new Segment(points.getPoint("E"), x_point);
 		
+		assertTrue(iSegments.contains(segment1));
+		assertTrue(iSegments.contains(segment2));
+		assertTrue(iSegments.contains(segment3));
+		assertTrue(iSegments.contains(segment4));
 		
+		List<Segment> expectedMinimalSegments = new ArrayList<Segment>(iSegments);
+		expectedMinimalSegments.add(new Segment(points.getPoint("A"), points.getPoint("B")));
+		expectedMinimalSegments.add(new Segment(points.getPoint("A"), points.getPoint("C")));
+		expectedMinimalSegments.add(new Segment(points.getPoint("C"), points.getPoint("E")));
+		expectedMinimalSegments.add(new Segment(points.getPoint("C"), points.getPoint("B")));
+		expectedMinimalSegments.add(new Segment(points.getPoint("B"), points.getPoint("D")));
+		expectedMinimalSegments.add(new Segment(points.getPoint("D"), points.getPoint("E")));
+		
+		Set<Segment> minimalSegments = pp.identifyAllMinimalSegments(iPoints, segments, iSegments);
+		assertEquals(expectedMinimalSegments.size(), minimalSegments.size());
+		
+		// Check if we have all non-minimal segments 
+		//
+		// Construct ALL figure segments from the base segments
+		//
+		Set<Segment> computedNonMinimalSegments = pp.constructAllNonMinimalSegments(minimalSegments);
+		System.out.println("Non-minimal Segments TEST: " + computedNonMinimalSegments.toString());
+		//
+		// All Segments will consist of the new 15 non-minimal segments.
+		//
+		
+		assertEquals(4, computedNonMinimalSegments.size());
+		
+		List<Segment> expectedNonMinimalSegments = new ArrayList<Segment>();
+		expectedNonMinimalSegments.add(new Segment(points.getPoint("A"), points.getPoint("E")));
+		expectedNonMinimalSegments.add(new Segment(points.getPoint("A"), points.getPoint("D")));
+		
+		expectedNonMinimalSegments.add(new Segment(points.getPoint("C"), points.getPoint("D")));
+		expectedNonMinimalSegments.add(new Segment(points.getPoint("E"), points.getPoint("B")));
+		
+		//
+		// Check size and content equality
+		//
+		assertEquals(expectedNonMinimalSegments.size(), computedNonMinimalSegments.size());
+
+		for (Segment computedNonMinimalSegment : computedNonMinimalSegments)
+		{
+			assertTrue(expectedNonMinimalSegments.contains(computedNonMinimalSegment));
+		}
 	}
 	
 	
@@ -190,18 +229,7 @@ class PreprocessorTest
 			System.out.println(pt);
 		}
 		
-		System.out.println(points.getPoint("C") + "" + points.getPoint("D"));
-		
-		System.out.println("checking minimal segments: ");
-		for (Segment minimalSeg : minimalSegments)
-		{
-			System.out.println(expectedMinimalSegments.contains(minimalSeg));
-			
-			System.out.println(minimalSeg.getPoint1());
-			System.out.println(minimalSeg.getPoint2());
-			System.out.println("---------");
-			assertTrue(expectedMinimalSegments.contains(minimalSeg));
-		}
+
 		
 		//
 		// Construct ALL figure segments from the base segments
@@ -211,7 +239,10 @@ class PreprocessorTest
 		//
 		// All Segments will consist of the new 15 non-minimal segments.
 		//
+		//System.out.println("Non-minimal Segments: " + computedNonMinimalSegments.toString());
 		assertEquals(15, computedNonMinimalSegments.size());
+		
+	
 
 		//
 		// Ensure we have ALL minimal segments: 20 in this figure.
