@@ -162,18 +162,16 @@ public class Preprocessor
 	 */
 	public Set<Segment> constructAllNonMinimalSegments(Set<Segment> minimalSegs) {
 
-		ArrayList<Segment> minimalSegList = new ArrayList<Segment>();
-		minimalSegList.addAll(minimalSegs);
-
-		return constructAllNonMinimalSegmentsHelper(minimalSegList);
+		return constructAllNonMinimalSegmentsHelper(new ArrayList<Segment>(minimalSegs), new ArrayList<Segment>());
 	}
 
-	private Set<Segment> constructAllNonMinimalSegmentsHelper(ArrayList<Segment> segments) {
+	private Set<Segment> constructAllNonMinimalSegmentsHelper(ArrayList<Segment> segments, ArrayList<Segment> newNonMinimal) {
 		
-		ArrayList<Segment> newNonMinimal = new ArrayList<Segment>();
+		// used to later check if we gained any new non minimal segments
+		int origSize = newNonMinimal.size();
 		
 		// for each segment in our list...
-		for (int i = 0; i < segments.size(); i++) {
+		for (int i = 0; i < segments.size(); i++) { // change 3 back to segments.size()
 
 			// check against all other segments...
 			for (int j = 0; j < segments.size(); j++) {
@@ -182,20 +180,26 @@ public class Preprocessor
 				Segment seg2 = segments.get(j);
 
 				// if they are collinear, the new non-minimal segment is formed by the two non-shared (outer) points
-				if (seg1.isCollinearWith(seg2) && seg1.sharedVertex(seg2) != null) {
+				if (seg1.coincideWithoutOverlap(seg2) && seg1.sharedVertex(seg2) != null) {
 					Point midpoint = seg1.sharedVertex(seg2);
-					newNonMinimal.add(new Segment(seg1.other(midpoint), seg2.other(midpoint)));
+					
+					Segment newSeg = new Segment(seg1.other(midpoint), seg2.other(midpoint));
+					
+					if (!newNonMinimal.contains(newSeg)) {
+
+						segments.add(newSeg);
+						newNonMinimal.add(newSeg);
+					}
 				}
 			}
 		}
+		
 		// if we found no more non-minimal segments, we are done
-		if (newNonMinimal.isEmpty()) return new LinkedHashSet<Segment>(segments);
+		if (newNonMinimal.size() == origSize) return new LinkedHashSet<Segment>(newNonMinimal);
 		
 		// repeat process until all possible non minimal segments are found
-		return constructAllNonMinimalSegmentsHelper(newNonMinimal);
+		return constructAllNonMinimalSegmentsHelper(segments, newNonMinimal);
 	}
-
-	/*
 
 	/**
 	 *

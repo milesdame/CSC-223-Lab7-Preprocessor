@@ -150,9 +150,12 @@ public class Segment extends GeometricObject
 	 */
 	public boolean coincideWithoutOverlap(Segment that)
 	{
+		if (this.equals(that)) return false;
+		
 		// check if they are collinear. then, check that there is no overlap
 		if (LineDelegate.areCollinear(this, that)) {
-			if (pointLiesOnSegment(that._point1) || pointLiesOnSegment(that._point2)) return false;
+			if (this.pointLiesBetweenEndpoints(that._point1) || this.pointLiesBetweenEndpoints(that._point2)) return false;
+			if (that.pointLiesBetweenEndpoints(this._point1) || that.pointLiesBetweenEndpoints(this._point2)) return false;
 			return true;
 		}
 		return false;

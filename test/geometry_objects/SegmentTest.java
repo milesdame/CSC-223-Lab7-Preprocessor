@@ -85,6 +85,20 @@ public class SegmentTest {
 	}
 	
 	@Test
+	void test_coincideWithoutOverlap_connectatvertex_overlap() {
+		Segment seg1 = new Segment(new Point(0,0), new Point(1,0));
+		Segment seg2 = new Segment(new Point(0,0), new Point(2,0));
+		
+		boolean expected = false;
+		boolean actual = seg1.coincideWithoutOverlap(seg2);
+		
+		System.out.println(seg1.pointLiesBetweenEndpoints(seg2._point1));
+		System.out.println(seg1.pointLiesBetweenEndpoints(seg2._point2));
+		
+		assertEquals(expected, actual);
+	}
+	
+	@Test
 	void test_coincideWithoutOverlap_differentSlopesConnected() {
 		Segment seg1 = new Segment(new Point(0,0), new Point(1,0));
 		Segment seg2 = new Segment(new Point(0,0), new Point(1,1));
@@ -111,7 +125,7 @@ public class SegmentTest {
 		Segment seg1 = new Segment(new Point(0,0), new Point(1,0));
 		Segment seg2 = new Segment(new Point(1,0), new Point(2,0));
 		
-		boolean expected = false;
+		boolean expected = true;
 		boolean actual = seg1.coincideWithoutOverlap(seg2);
 		
 		assertEquals(expected, actual);
