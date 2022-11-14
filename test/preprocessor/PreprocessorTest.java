@@ -24,52 +24,10 @@ class PreprocessorTest
 	protected Preprocessor preprocessor = new Preprocessor();
 	
 		
-//	@Test
-//	void test_constructAllNonMinimalSegments_empty() {
-//		Set<Segment> min = new LinkedHashSet<Segment>();
-//		
-//		Set<Segment> expected = new LinkedHashSet<Segment>();
-//		Set<Segment> actual = preprocessor.constructAllNonMinimalSegments(min);
-//		
-//		assertEquals(expected, actual);
-//	}
-//	
-//	@Test
-//	void test_implicit_points_and_segments() {
-//		FigureNode fig = InputFacade.extractFigure("jsonfiles/crossing_symmetric_triangle.json");
-//
-//		Map.Entry<PointDatabase, Set<Segment>> pair = InputFacade.toGeometryRepresentation(fig);
-//
-//		PointDatabase points = pair.getKey();
-//
-//		Set<Segment> segments = pair.getValue();
-//
-//		Preprocessor pp = new Preprocessor(points, segments);
-//		
-//		// 5 new implied points inside the pentagon
-//		Set<Point> iPoints = ImplicitPointPreprocessor.compute(points, new ArrayList<Segment>(segments));
-//		assertEquals(1, iPoints.size());
-//		
-//		//	     A                                 
-//		//      / \                                
-//		//     B___C                               
-//		//    / \ / \                              
-//		//   /   X   \  X is not a specified point (it is implied) 
-//		//  D_________E      
-//		
-//		Point x_point = new Point(3, 3);
-//		
-//		// Check if the implicit point has been processed and added
-//		assertTrue(iPoints.contains(x_point));
-//		
-//		// Check if the implicit segments have all been detected and processed.
-//		Set<Segment> iSegments = pp.computeImplicitBaseSegments(iPoints);
-//		assertEquals(4, iSegments.size());
-//		
-//		//
-//		
-//	}
-//	
+	@Test
+	void test_constructAllNonMinimalSegments_empty() {
+		Set<Segment> min = new LinkedHashSet<Segment>();
+		
 		Set<Segment> expected = new LinkedHashSet<Segment>();
 		Set<Segment> actual = preprocessor.constructAllNonMinimalSegments(min);
 		
@@ -254,6 +212,29 @@ class PreprocessorTest
 		{
 			assertTrue(expectedMinimalSegments.contains(minimalSeg));
 		}
+//		
+//		System.out.println("expected minimal segments: ");
+//		for (Segment minimalSeg : expectedMinimalSegments)
+//		{
+//			System.out.println(minimalSeg.getPoint1());
+//			System.out.println(minimalSeg.getPoint2());
+//			System.out.println("---------");
+//		}
+//		
+//		System.out.println("all found minimal segments: ");
+//		for (Segment minimalSeg : minimalSegments)
+//		{
+//			System.out.println(minimalSeg.getPoint1());
+//			System.out.println(minimalSeg.getPoint2());
+//			System.out.println("---------");
+//		}
+		
+		
+		for (Point pt : points.getPoints()) {
+			System.out.println(pt);
+		}
+		
+
 		
 		//
 		// Construct ALL figure segments from the base segments
