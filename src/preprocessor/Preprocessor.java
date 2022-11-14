@@ -112,7 +112,7 @@ public class Preprocessor
 	public Set<Segment> identifyAllMinimalSegments(Set<Point> _implicitPoints2, Set<Segment> _givenSegments2,
 
 			Set<Segment> _implicitSegments2) {
-		Set<Segment> allMinimalSegments = _implicitSegments2;
+		Set<Segment> allMinimalSegments = new LinkedHashSet<Segment>(_implicitSegments2);
 		Set<Point> points = this.combinePoints(_implicitPoints2, _pointDatabase.getPoints());
 
 		// Loop through all of the given segments

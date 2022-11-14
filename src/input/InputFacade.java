@@ -28,7 +28,6 @@ public class InputFacade
 	{
 		JSONParser Parse = new JSONParser();
 		String figureStr = utilities.io.FileUtilities.readFileFilterComments(filename);
-		System.out.println(figureStr);
 		ComponentNode node = Parse.parse(figureStr);
 		
 		return (FigureNode)node;
