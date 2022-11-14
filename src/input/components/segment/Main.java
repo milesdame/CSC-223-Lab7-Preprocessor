@@ -52,7 +52,6 @@ public class Main {
 		UnparseVisitor unparser = new UnparseVisitor();
 		unparser.visitFigureNode((FigureNode)f,
 		 new AbstractMap.SimpleEntry<StringBuilder, Integer>(sb, 0));
-		System.out.println(sb.toString());
 	}
 
 }
