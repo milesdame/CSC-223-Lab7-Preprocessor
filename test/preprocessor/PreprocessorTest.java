@@ -192,7 +192,7 @@ class PreprocessorTest
 
 		for (Segment iSegment : iSegments)
 		{
-			assertTrue(iSegments.contains(iSegment));
+			assertTrue(expectedISegments.contains(iSegment));
 		}
 
 		//
