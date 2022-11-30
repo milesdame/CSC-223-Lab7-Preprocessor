@@ -70,7 +70,8 @@ public class Segment extends GeometricObject
 
 	public boolean HasSubSegment(Segment candidate)
 	{
-        return this.pointLiesOn(candidate._point1) && this.pointLiesOn(candidate._point2);
+		return this.pointLiesOnSegment(candidate._point1) &&
+               this.pointLiesOnSegment(candidate._point2);
 	}
 
 	/**
@@ -150,15 +151,14 @@ public class Segment extends GeometricObject
 	 */
 	public boolean coincideWithoutOverlap(Segment that)
 	{
-		if (this.equals(that)) return false;
-		
-		// check if they are collinear. then, check that there is no overlap
-		if (LineDelegate.areCollinear(this, that)) {
-			if (this.pointLiesBetweenEndpoints(that._point1) || this.pointLiesBetweenEndpoints(that._point2)) return false;
-			if (that.pointLiesBetweenEndpoints(this._point1) || that.pointLiesBetweenEndpoints(this._point2)) return false;
-			return true;
-		}
-		return false;
+		if (!isCollinearWith(that)) return false;
+
+		// Check the endpoints of @that 
+		if (this.pointLiesBetweenEndpoints(that.getPoint1())) return false;
+
+		if (this.pointLiesBetweenEndpoints(that.getPoint2())) return false;
+
+		return true;
 	}
 	
 	/**
@@ -168,19 +168,45 @@ public class Segment extends GeometricObject
 	public SortedSet<Point> collectOrderedPointsOnSegment(Set<Point> points)
 	{
 		SortedSet<Point> pointsOn = new TreeSet<Point>();
-
-		// Loop through all of the points
-		for (Point p : points) {
-			// If a point is on the segment then add it to the pointsOn Set
-			if (this.pointLiesOn(p)) pointsOn.add(p); 
+		for (Point pt : points)
+		{
+			if (pointLiesBetweenEndpoints(pt)) pointsOn.add(pt);
 		}
-
 		return pointsOn;
 	}
 	
-	public String toString() {
-		String str = "";
-		
-		return str + this.getPoint1().getName() + this.getPoint2().getName();
-	}
+    /*
+     * @param thisRay -- a ray
+     * @param thatRay -- a ray
+     * @return Does thatRay overlay thisRay? As in, both share same origin point, but other two points
+     * are not common: one extends over the other.
+     */
+    public static boolean overlaysAsRay(Segment left, Segment right)
+    {
+    	// Equal segments overlay
+    	if (left.equals(right)) return true;
+
+    	// Get point where they share an endpoint
+    	Point shared = left.sharedVertex(right);
+    	if (shared == null) return false;
+
+    	// Collinearity is required
+    	if (!left.isCollinearWith(right)) return false;
+    	
+    	Point otherL = left.other(shared);
+    	Point otherR = right.other(shared);
+    	
+        // Rays pointing in the same direction?
+        // Avoid: <--------------------- . ---------------->
+        //      V------------W------------Z
+                                     // middle  endpoint  endpoint
+        return GeometryUtilities.between(otherL, shared, otherR) ||
+        	   GeometryUtilities.between(otherR, shared, otherL);
+    }
+    
+    @Override
+    public String toString()
+    {
+    	return "Seg(" + _point1.getName() + _point2.getName() + ")";
+    }
 }
