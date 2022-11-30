@@ -173,6 +173,7 @@ public class Angle implements Comparable<Angle>
 	@Override
 	public boolean equals(Object obj)
 	{
+		if (obj == null) return false;
 		if (!(obj instanceof Angle)) return false;
 		Angle that = (Angle) obj;
 		

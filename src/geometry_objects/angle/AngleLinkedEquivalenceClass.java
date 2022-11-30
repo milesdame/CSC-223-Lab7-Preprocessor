@@ -21,9 +21,45 @@ import utilities.eq_classes.LinkedEquivalenceClass;
  *    We want the 'smallest' angle structurally to be the canonical element of an
  *    equivalence class.
  * 
- * @author XXX
+ * @author Sophie Ngo
  */
 public class AngleLinkedEquivalenceClass extends LinkedEquivalenceClass<Angle>
 {
-    // TODO
+	public AngleLinkedEquivalenceClass() {
+		
+		super(new AngleStructureComparator());
+	}
+	
+	/**
+	 * Add to equivalence class. Check to see if this new angle is the smallest structurally than the current canonical. 
+	 * If so, replace it
+	 */
+    @Override
+    public boolean add (Angle a) {
+		if (_canonical == null) {
+			_canonical = a;
+			return true;
+		}
+		// if new angle is structurally smaller than curr canonical, replace with new angle
+		if (_comparator.compare(_canonical, a) == -1) {
+			demoteAndSetCanonical(a);
+			return true;
+		}
+		if(this.belongs(a)) {
+			_rest.addToBack(a);
+			return true;
+		}
+		return false;
+    }
+    
+    /**
+     * Return true if the angles are structurally equivalent and therefore belong in this equivalence class.
+     */
+    @Override
+    public boolean belongs (Angle a) {
+		if (_canonical == null) return false;
+		if (a == null) return false;
+		if (a.equals(_canonical)) return true;
+		return _comparator.compare(_canonical, a) != AngleStructureComparator.STRUCTURALLY_INCOMPARABLE;
+    }
 }
