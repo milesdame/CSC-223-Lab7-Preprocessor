@@ -6,6 +6,7 @@ package geometry_objects.points;
 
 //import input.components.point.PointNode;
 import utilities.math.MathUtilities;
+import utilities.math.analytic_geometry.GeometryUtilities;
 
 /**
  * A 2D Point (x, y) only.
@@ -147,6 +148,14 @@ public class Point implements Comparable<Point>
 		String str = "";
 		
 		return str + "Name: " + this.getName() + ", X: " + this.getX() + ", Y: " + this.getY();
+	}
+
+	/**
+	 * Returns the distance between two Points as a double
+	 */
+	public static double distance(Point a, Point b) {
+
+		return GeometryUtilities.distance(a, b);
 	}
 	
 }
