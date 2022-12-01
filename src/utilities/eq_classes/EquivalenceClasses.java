@@ -39,6 +39,14 @@ public class EquivalenceClasses<T>{
 		return false;
 	}
 	
+	/**
+	 * Adds a class to the list of equivalence classes
+	 * @param eqClass - class to add
+	 * @return whether the add was successful
+	 */
+	public boolean addClass(LinkedEquivalenceClass<T> eqClass) {
+		return _classes.add(eqClass);
+	}
 	
 	/**
 	 * checks the classes if the passed element belongs to any of 
