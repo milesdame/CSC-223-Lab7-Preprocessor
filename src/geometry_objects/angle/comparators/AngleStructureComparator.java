@@ -58,6 +58,31 @@ public class AngleStructureComparator implements Comparator<Angle>
 	@Override
 	public int compare(Angle left, Angle right)
 	{
-        // TODO
+        // Case 1: Same vertex and rays 
+		if (left.overlays(right)) {
+			
+			// Get the ray from the left angle that corresponds with ray1 from the right angle
+			Segment lr1 = left.overlayingRay(right.getRay1());
+			
+			// Get the ray from the left angle that corresponds with ray2 from the right angle
+			Segment lr2 = left.overlayingRay(right.getRay2());
+			
+			// Case 2: Same vertex and rays in left are >= rays in the right
+			if ((lr1.length() >= right.getRay1().length()) && (lr2.length() >= left.getRay2().length()) ) return 1;
+			
+			// Case 3: Same vertex and rays in left are <= rays in the right
+			if ((lr1.length() <= right.getRay1().length()) && (lr2.length() <= left.getRay2().length())) return -1;
+			
+			// Case 4: corresponding rays are different lengths
+			if ((lr1.length() > right.getRay1().length()) && (lr2.length() < left.getRay2().length())) return 0;
+			if ((lr1.length() < right.getRay1().length()) && (lr2.length() > left.getRay2().length())) return 0;	
+				
+		} 
+		int error = Integer.MAX_VALUE;
+		return error;
+		
+		
+		
+		
 	}
 }
