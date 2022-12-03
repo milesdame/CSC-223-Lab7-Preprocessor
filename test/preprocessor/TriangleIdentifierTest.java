@@ -49,7 +49,7 @@ class TriangleIdentifierTest
 	// This figure contains 12 triangles
 	//
 	@Test
-	void test_crossing_symmetric_triangle()
+	void test_crossing_symmetric_triangle() throws FactException
 	{
 		init("crossing_symmetric_triangle.json");
 
