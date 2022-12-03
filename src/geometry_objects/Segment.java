@@ -90,6 +90,23 @@ public class Segment extends GeometricObject
 		if (_point2.equals(that._point2)) return _point2;
 		return null;
 	}
+	
+	/**
+	 * Determines if this segment that segment share an endpoint
+	 * @param s -- a segment
+	 * @return the shared endpoint
+	 *         returns null if they are the same segment
+	 */
+	public boolean hasSharedVertex(Segment that)
+	{
+		if (this.equals(that)) return false;
+
+		if (_point1.equals(that._point1)) return true;
+		if (_point1.equals(that._point2)) return true;
+		if (_point2.equals(that._point1)) return true;
+		if (_point2.equals(that._point2)) return true;
+		return false;
+	}
 
 	@Override
 	public boolean equals(Object obj)
