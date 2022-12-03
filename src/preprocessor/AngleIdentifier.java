@@ -13,9 +13,8 @@ import geometry_objects.points.Point;
 import utilities.math.MathUtilities;
 
 /**
- * This class will find all angles in a figure. 
- * The figure is given by a map of segments.
- * 
+ * The purpose of this class is to find all angles in a figure. 
+ * The figure is represented by a map of segments. 
  * 
  * @author Sophie Ngo
  *
@@ -64,36 +63,32 @@ public class AngleIdentifier
 		
 		// loop through list of segments. grab one at a time, check it against all other segments after it
 		for (int i = 0; i < segments.size(); i++) {
-			Segment s1 = segments.get(i);
-			
+
 			for (int j = i+1; j < segments.size(); j++) {
-				Segment s2 = segments.get(j);
-				
-				// where the action happens. if the segments connect at one endpoint, create a new angle and add it (if measure is not 0 radians)
-				Point sharedPt = s1.sharedVertex(s2);
-				if (sharedPt != null) {
-					addToAngles(makeValidAngle(s1, s2));
-				}
+
+				computeAndAddAngle(segments.get(i), segments.get(j));
 			}
 		}
 	}
 	
 	/**
-	 * Returns an Angle out of two segments, but only if the angle's measure is not epsilon equal to 0 radians. 
+	 * Creates a new Angle made from the two given segments. If the measure of the angle is not 0, add it to the 
+	 * collection of Angles.
 	 * @param s1 - first segment
 	 * @param s2 - second segment
-	 * @return new Angle if angle measure is not 0, otherwise null
-	 * @throws FactException 
+	 * @throws FactException
 	 */
-	private Angle makeValidAngle(Segment s1, Segment s2) throws FactException {
-		Angle a = new Angle(s1, s2);
-		if (MathUtilities.doubleEquals(a.getMeasure(), 0.0)) return null;
-		return a;
+	private void computeAndAddAngle(Segment s1, Segment s2) throws FactException {
+		// if they overlay, then their measure is 0. this is bad
+		if (Segment.overlaysAsRay(s1, s2)) return;
+
+		if (s1.sharedVertex(s2) != null) {
+			addToAngles(new Angle(s1, s2));
+		}
 	}
 	
 	/**
 	 * Handles adding an angle to the current collection of Angle equivalence classes.
-	 * Will not add if a is null (this will happen if the angle calculated had a measure of 0 radians.
 	 * Will create a new equivalence class if the new angle does not belong to any existing equivalence classes.
 	 * @param a - angle to add
 	 */

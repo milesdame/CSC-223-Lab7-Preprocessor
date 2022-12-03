@@ -54,6 +54,7 @@ public class AngleLinkedEquivalenceClassTest {
 		Segment s2 = new Segment(new Point(0,0), new Point(1,1));
 		Angle a1 = new Angle(s1,s2);
 		Angle a2 = new Angle(s1,s2);
+		eq.demoteAndSetCanonical(a1);
 		
 		boolean expected = true;
 		boolean actual = eq.belongs(a2);
@@ -84,9 +85,11 @@ public class AngleLinkedEquivalenceClassTest {
 		Angle a1 = new Angle(s1,s2);
 		Segment s3 = new Segment(new Point(0,0), new Point(1,0));
 		Segment s4 = new Segment(new Point(0,0), new Point(2,2));
+		Angle a2 = new Angle(s3,s4);
+		eq.demoteAndSetCanonical(a1);
 		
 		boolean expected = true;
-		boolean actual = eq.belongs(a1);
+		boolean actual = eq.belongs(a2);
 		
 		assertEquals(expected, actual);
 	}
@@ -127,7 +130,7 @@ public class AngleLinkedEquivalenceClassTest {
 		eq.add(a2);
 		
 		assertEquals(eq.size(), 2);
-		assertEquals(eq.canonical(), a2); 
+		assertEquals(eq.canonical(), a1); 
 	}
 	
 	@Test
