@@ -37,7 +37,11 @@ class TriangleIdentifierTest {
 		_segments = _pp.getAllSegments();
 		
 		
-		System.out.println(_segments.toString());
+		//System.out.println(_segments.toString());
+		
+		for (Segment s : _segments.keySet()) {
+			System.out.println(s.toString());
+		}
 		
 	}
 	
