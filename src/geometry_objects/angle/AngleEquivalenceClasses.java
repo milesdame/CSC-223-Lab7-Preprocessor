@@ -31,11 +31,21 @@ public class AngleEquivalenceClasses extends EquivalenceClasses<Angle>
 	}
 
 	/**
-	 * Ensure that every class added is an AngleLinkedEquivalenceClass
+	 * Ensures that every class added is an AngleLinkedEquivalenceClass
+	 * @param eqclass - AngleLinkedEquivalenceClass to add
+	 * @return whether the given class was successfully added
 	 */
 	@Override
 	public boolean addClass(LinkedEquivalenceClass<Angle> eqclass) {
 		if (!(eqclass instanceof AngleLinkedEquivalenceClass)) return false;
 		return _classes.add(eqclass);
+	}
+	
+	public int sizeAll() {
+		int sum = 0;
+		for (LinkedEquivalenceClass<Angle> c : _classes) {
+			sum = sum + c.size();
+		}
+		return sum;
 	}
 }

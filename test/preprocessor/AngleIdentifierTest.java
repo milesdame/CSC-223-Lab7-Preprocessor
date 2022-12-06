@@ -17,11 +17,13 @@ import geometry_objects.angle.AngleEquivalenceClasses;
 import geometry_objects.points.Point;
 import geometry_objects.points.PointDatabase;
 import input.components.FigureNode;
+import preprocessor.delegates.ImplicitPointPreprocessor;
 import input.InputFacade;
 
 class AngleIdentifierTest
 {
 	protected PointDatabase _points;
+	protected PointDatabase _processedPoints;
 	protected Preprocessor _pp;
 	protected Map<Segment, Segment> _segments;
 	
@@ -80,7 +82,10 @@ class AngleIdentifierTest
 		//
 		// Implied minimal segments: 4 in this figure.
 		//
-		Point a_star = _points.getPoint(3,3);
+		Set<Point> iPointsSet = ImplicitPointPreprocessor.compute(_points, new ArrayList<Segment>(_segments.keySet()));
+		PointDatabase iPoints =  new PointDatabase(new ArrayList<Point>(iPointsSet));
+
+		Point a_star = iPoints.getPoint(3,3);
 
 		Segment a_star_b = new Segment(a_star, _points.getPoint("B"));
 		Segment a_star_c = new Segment(a_star, _points.getPoint("C"));
@@ -182,17 +187,19 @@ class AngleIdentifierTest
 			
 			expectedAngles.add(new Angle(bc, bd));
 
-			expectedAngles.add(new Angle(bc, ce));			
+			expectedAngles.add(new Angle(bc, ce));	
+			
 		}
+		
 		catch (FactException te) { System.err.println("Invalid Angles in Angle test."); }
 
-		assertEquals(expectedAngles.size(), computedAngles.size());
-		
+		System.out.println(computedAngles);
 		//
 		// Equality
 		//
 		for (Angle expected : expectedAngles)
 		{
+			System.out.println(expected);
 			assertTrue(computedAngles.contains(expected));
 		}
 	}
