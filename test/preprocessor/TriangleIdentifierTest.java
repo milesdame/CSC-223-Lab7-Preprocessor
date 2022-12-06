@@ -18,14 +18,12 @@ import geometry_objects.points.PointDatabase;
 import input.components.FigureNode;
 import input.InputFacade;
 
-class TriangleIdentifierTest
-{
+class TriangleIdentifierTest { 
 	protected PointDatabase _points;
 	protected Preprocessor _pp;
 	protected Map<Segment, Segment> _segments;
 	
-	protected void init(String filename)
-	{
+	protected void init(String filename) {
 		FigureNode fig = InputFacade.extractFigure("jsonfiles/crossing_symmetric_triangle.json");
 
 		Map.Entry<PointDatabase, Set<Segment>> pair = InputFacade.toGeometryRepresentation(fig);
@@ -53,8 +51,7 @@ class TriangleIdentifierTest
 	// This figure contains 12 triangles
 	//
 	@Test
-	void test_crossing_symmetric_triangle() throws FactException
-	{
+	void test_crossing_symmetric_triangle() throws FactException {
 		init("crossing_symmetric_triangle.json");
 
 		TriangleIdentifier triIdentifier = new TriangleIdentifier(_segments);

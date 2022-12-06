@@ -39,9 +39,9 @@ public class TriangleIdentifier
 
 	private void computeTriangles() throws FactException {
 		Set<Segment> segmentSet = _segments.keySet();
-		Object[] segmentArr = segmentSet.toArray();
-		int i;;
-		
+		//Object[] segmentArr = segmentSet.toArray();
+		ArrayList<Segment> segmentArr = new ArrayList<Segment>(segmentSet);
+		int i;
 		Point sharedPoint;
 		Point point1;
 		Point point2;
@@ -49,18 +49,18 @@ public class TriangleIdentifier
 		List<Segment> segmentList;
 		
 		// Loop through all of the segments
-		for (i = 0; i < segmentArr.length; i++) {
+		for (i = 0; i < segmentArr.size(); i++) {
 			// Get the first segment
 			System.out.println("I LOOP : " + i);
-			Segment seg1 = (Segment) segmentArr[i];
+			Segment seg1 = (Segment) segmentArr.get(i);
 			System.out.println("Segment 1: " + seg1.toString());
 			
 			
 			// Loop through all of the remaining segments
-			for (int j = (i + 1); j < segmentArr.length; j++) {
+			for (int j = (i + 1); j < segmentArr.size(); j++) {
 				// Get the next segment
 				System.out.println("J LOOP : " + j);
-				Segment seg2 = (Segment) segmentArr[j];
+				Segment seg2 = (Segment) segmentArr.get(j);
 				System.out.println("Segment 1: " + seg1.toString());
 				System.out.println("Segment 2: " + seg2.toString());
 				
@@ -78,14 +78,14 @@ public class TriangleIdentifier
 					Segment matchMaker = new Segment(point1, point2);	
 					
 					// Loop through the remaining segments after the point where the second segment is found
-					for (int k = (j + 1); k < segmentArr.length; k++) {
+					for (int k = (j + 1); k < segmentArr.size(); k++) {
 						System.out.println("K LOOP : " + k);
 						
 						// Check if the current segment matches the matchMaker segment
-						if (segmentArr[k].equals(matchMaker)) {
+						if (segmentArr.get(k).equals(matchMaker)) {
 							
 							// If it does then get it
-							Segment seg3 = (Segment) segmentArr[k];
+							Segment seg3 = (Segment) segmentArr.get(k);
 							System.out.println("Segment 1: " + seg1.toString());
 							System.out.println("Segment 2: " + seg2.toString());
 							System.out.println("Segment 3: " + seg3.toString());
@@ -101,7 +101,7 @@ public class TriangleIdentifier
 							break;
 						}
 						
-						if (k == segmentArr.length) {
+						if (k == segmentArr.size()) {
 							k = 0;
 						}
 						
@@ -109,13 +109,21 @@ public class TriangleIdentifier
 					
 				}
 				
-				if (j == segmentArr.length) {
+				if (j == segmentArr.size()) {
 					j = 0;
 				}
 				
 				
 			}
 		}
+	}
+	
+	private Segment findSecondViableSeg(int index, Segment seg1) {
+		for (int j = (i + 1); j < segmentArr.length; j++) {
+	}
+	
+	private Segment findThirdViableSeg(int index) {
+		
 	}
 	
 	private List<Segment> createSegList(Segment s1, Segment s2, Segment s3) {
