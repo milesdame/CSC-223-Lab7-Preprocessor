@@ -1,8 +1,10 @@
 package preprocessor;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import exceptions.FactException;
 import geometry_objects.Segment;
@@ -59,7 +61,7 @@ public class AngleIdentifier
 	 */
 	private void computeAngles() throws FactException
 	{
-		ArrayList<Segment> segments = (ArrayList<Segment>) _segments.values();
+		ArrayList<Segment> segments = new ArrayList<Segment> (_segments.keySet());
 		
 		// loop through list of segments. grab one at a time, check it against all other segments after it
 		for (int i = 0; i < segments.size(); i++) {
