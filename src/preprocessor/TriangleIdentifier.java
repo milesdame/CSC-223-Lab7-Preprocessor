@@ -1,3 +1,10 @@
+/**
+ * A class for identifying all triangles within a given figure
+ * 
+ * @author milesdame
+ * @date 12/6/2022
+ */
+
 package preprocessor;
 
 import java.util.ArrayList;
@@ -37,25 +44,35 @@ public class TriangleIdentifier
 		return _triangles;
 	}
 
-
+	/**
+	 * Computes all of the possible triangles within a figure using the segments that make up that figure
+	 * @throws FactException
+	 */
 	private void computeTriangles() throws FactException {
-		Set<Segment> segmentSet = _segments.keySet();
-
-		ArrayList<Segment> segmentArr = new ArrayList<Segment>(segmentSet);
+		
+		// Get the segments as an ArrayList
+		ArrayList<Segment> segmentArr = new ArrayList<Segment>(_segments.keySet());
 		int i;
 		
 		// Loop through all of the segments
 		for (i = 0; i < segmentArr.size(); i++) {
 			
-			// Get each segment
+			// Get the segment
 			Segment seg1 = (Segment) segmentArr.get(i);
 			
 			// Find the next segment that matches the first and then look to see 
-			// if a third segment exists that matches both 
+			// if a third segment exists that matches both and then create a triangle using all three segments
 			this.findMatchingSegs(i + 1, segmentArr, seg1);
 		}
 	}
 	
+	/**
+	 * Finds the second matching segment in a potential triangle
+	 * @param index
+	 * @param segmentArr
+	 * @param seg1
+	 * @throws FactException
+	 */
 	private void findMatchingSegs(int index, ArrayList segmentArr, Segment seg1) throws FactException {
 		
 		// Loop through all of the remaining segments
@@ -74,13 +91,22 @@ public class TriangleIdentifier
 				// to use for finding a third segment
 				Segment matchMaker = new Segment(seg1.other(sharedPoint), seg2.other(sharedPoint));	
 				
-				// Find the third and final segment
+				// Find the third and final segment 
 				this.findThirdSeg(j + 1, segmentArr, matchMaker, seg1, seg2);
 				
 			}
 		}
 	}
 	
+	/**
+	 * Searches for the third segment of a triangle and if found constructs a Triangle and adds it to the Set
+	 * @param index
+	 * @param segmentArr
+	 * @param matchMaker
+	 * @param seg1
+	 * @param seg2
+	 * @throws FactException
+	 */
 	private void findThirdSeg(int index, ArrayList segmentArr, Segment matchMaker, Segment seg1, Segment seg2) throws FactException {
 		
 		// Loop through the remaining segments after the point where the second segment is found

@@ -36,13 +36,6 @@ class TriangleIdentifierTest {
 
 		_segments = _pp.getAllSegments();
 		
-		
-		//System.out.println(_segments.toString());
-		
-		for (Segment s : _segments.keySet()) {
-			System.out.println(s.toString());
-		}
-		
 	}
 	
 	//      A                                 
@@ -61,8 +54,6 @@ class TriangleIdentifierTest {
 		TriangleIdentifier triIdentifier = new TriangleIdentifier(_segments);
 
 		Set<Triangle> computedTriangles = triIdentifier.getTriangles();
-
-		System.out.println(computedTriangles);
 
 		assertEquals(12, computedTriangles.size());
 
@@ -149,7 +140,6 @@ class TriangleIdentifierTest {
 
 		Set<Triangle> computedTriangles = triIdentifier.getTriangles();
 
-		System.out.println(computedTriangles);
 
 		assertEquals(16, computedTriangles.size());
 
@@ -227,7 +217,7 @@ class TriangleIdentifierTest {
 			
 			expectedTriangles.add(new Triangle(Arrays.asList(ef, fg, eg)));
 			expectedTriangles.add(new Triangle(Arrays.asList(ef, fh, eh)));
-			expectedTriangles.add(new Triangle(Arrays.asList(eg, hg, fh)));
+			expectedTriangles.add(new Triangle(Arrays.asList(eg, eh, hg)));
 			expectedTriangles.add(new Triangle(Arrays.asList(fg, hg, fh)));
 		}
 		catch (FactException te) { System.err.println("Invalid triangles in triangle test."); }
