@@ -85,7 +85,7 @@ public class TriangleIdentifier
 		
 		// Loop through the remaining segments after the point where the second segment is found
 		for (int k = index; k < segmentArr.size(); k++) {
-			System.out.println("K LOOP : " + k);
+			
 			
 			// Check if the current segment matches the matchMaker segment
 			if (segmentArr.get(k).equals(matchMaker)) {
