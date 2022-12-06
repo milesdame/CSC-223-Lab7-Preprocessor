@@ -1,6 +1,7 @@
 package preprocessor;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -39,98 +40,60 @@ public class TriangleIdentifier
 
 	private void computeTriangles() throws FactException {
 		Set<Segment> segmentSet = _segments.keySet();
-		//Object[] segmentArr = segmentSet.toArray();
+
 		ArrayList<Segment> segmentArr = new ArrayList<Segment>(segmentSet);
 		int i;
-		Point sharedPoint;
-		Point point1;
-		Point point2;
-		
-		List<Segment> segmentList;
 		
 		// Loop through all of the segments
 		for (i = 0; i < segmentArr.size(); i++) {
-			// Get the first segment
-			System.out.println("I LOOP : " + i);
+			
+			// Get each segment
 			Segment seg1 = (Segment) segmentArr.get(i);
-			System.out.println("Segment 1: " + seg1.toString());
 			
+			// Find the next segment that matches the first and then look to see 
+			// if a third segment exists that matches both 
+			this.findMatchingSegs(i + 1, segmentArr, seg1);
+		}
+	}
+	
+	private void findMatchingSegs(int index, ArrayList segmentArr, Segment seg1) throws FactException {
+		
+		// Loop through all of the remaining segments
+		for (int j = index; j < segmentArr.size(); j++) {
 			
-			// Loop through all of the remaining segments
-			for (int j = (i + 1); j < segmentArr.size(); j++) {
-				// Get the next segment
-				System.out.println("J LOOP : " + j);
-				Segment seg2 = (Segment) segmentArr.get(j);
-				System.out.println("Segment 1: " + seg1.toString());
-				System.out.println("Segment 2: " + seg2.toString());
+			// Get the next segment
+			Segment seg2 = (Segment) segmentArr.get(j);
+			
+			// Check if the second segment shares a vertex with the first segment 
+			if (seg1.hasSharedVertex(seg2) && !(seg1.isCollinearWith(seg2))) {
 				
-				// Check if the second segment shares a vertex with the first segment 
-				if (seg1.hasSharedVertex(seg2) && !(seg1.isCollinearWith(seg2))) {
-					
-					// If so then get that shared point
-					sharedPoint = seg1.sharedVertex(seg2);
-					
-					// Get the other points from each segment (the two that don't match between the segments)
-					point1 = seg1.other(sharedPoint);
-					point2 = seg2.other(sharedPoint);
-					
-					// Create a segment from those two points to use for finding a third segment
-					Segment matchMaker = new Segment(point1, point2);	
-					
-					// Loop through the remaining segments after the point where the second segment is found
-					for (int k = (j + 1); k < segmentArr.size(); k++) {
-						System.out.println("K LOOP : " + k);
-						
-						// Check if the current segment matches the matchMaker segment
-						if (segmentArr.get(k).equals(matchMaker)) {
-							
-							// If it does then get it
-							Segment seg3 = (Segment) segmentArr.get(k);
-							System.out.println("Segment 1: " + seg1.toString());
-							System.out.println("Segment 2: " + seg2.toString());
-							System.out.println("Segment 3: " + seg3.toString());
-							System.out.println("++++++++NEXT+++++++++++)");
-							// Create a list of the three matching segments
-							segmentList = createSegList(seg1, seg2, seg3);
-							
-							// Create a triangle from the list
-							Triangle tri = new Triangle(segmentList);
-							
-							// Add the triangle to the database
-							_triangles.add(tri);
-							break;
-						}
-						
-						if (k == segmentArr.size()) {
-							k = 0;
-						}
-						
-					}
-					
-				}
+				// If so then get that shared point
+				Point sharedPoint = seg1.sharedVertex(seg2);
 				
-				if (j == segmentArr.size()) {
-					j = 0;
-				}
+				// Create a segment from the two points the first segments don't share 
+				// to use for finding a third segment
+				Segment matchMaker = new Segment(seg1.other(sharedPoint), seg2.other(sharedPoint));	
 				
+				// Find the third and final segment
+				this.findThirdSeg(j + 1, segmentArr, matchMaker, seg1, seg2);
 				
 			}
 		}
 	}
 	
-	private Segment findSecondViableSeg(int index, Segment seg1) {
-		for (int j = (i + 1); j < segmentArr.length; j++) {
-	}
-	
-	private Segment findThirdViableSeg(int index) {
+	private void findThirdSeg(int index, ArrayList segmentArr, Segment matchMaker, Segment seg1, Segment seg2) throws FactException {
 		
-	}
-	
-	private List<Segment> createSegList(Segment s1, Segment s2, Segment s3) {
-		ArrayList<Segment> list = new ArrayList<Segment>();
-		list.add(s1);
-		list.add(s2);
-		list.add(s3);
-		return list;
+		// Loop through the remaining segments after the point where the second segment is found
+		for (int k = index; k < segmentArr.size(); k++) {
+			System.out.println("K LOOP : " + k);
+			
+			// Check if the current segment matches the matchMaker segment
+			if (segmentArr.get(k).equals(matchMaker)) {
+				
+				// If it does then get it
+				Segment seg3 = (Segment) segmentArr.get(k);
+				_triangles.add(new Triangle(Arrays.asList(seg1, seg2, seg3)));
+			}						
+		}
 	}
 }
