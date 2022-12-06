@@ -194,15 +194,15 @@ class TriangleIdentifierTest {
 		Segment dg = new Segment(_points.getPoint("D"), _points.getPoint("G"));
 		Segment ch = new Segment(_points.getPoint("C"), _points.getPoint("H"));
 		
-		Segment d__a_star = new Segment(_points.getPoint("A"), a_star);
-		Segment c__a_star = new Segment(_points.getPoint("A"), a_star);
-		Segment b__a_star = new Segment(_points.getPoint("A"), a_star);
+		Segment d__a_star = new Segment(_points.getPoint("D"), a_star);
+		Segment c__a_star = new Segment(_points.getPoint("C"), a_star);
+		Segment b__a_star = new Segment(_points.getPoint("B"), a_star);
 		Segment a__a_star = new Segment(_points.getPoint("A"), a_star);
 		
 		Segment ah = new Segment(_points.getPoint("A"), _points.getPoint("H"));
 		Segment bg = new Segment(_points.getPoint("B"), _points.getPoint("G"));
 		Segment ce = new Segment(_points.getPoint("C"), _points.getPoint("E"));
-		Segment df = new Segment(_points.getPoint("F"), _points.getPoint("F"));
+		Segment df = new Segment(_points.getPoint("D"), _points.getPoint("F"));
 		
 		//
 		// Triangles we expect to find
