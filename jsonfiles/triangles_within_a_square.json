@@ -1,14 +1,14 @@
 //
 //  A--B--C--D--E
-//  | \|__|__|/ |
+//  | \_______/ |
 //  |  |\ | /|  |
 //  |  | /|\ |  |
-//  | /|__|__|\ |
+//  | /-------\ |
 //  J--I--H--G--F
 //
 //
 //
-//    An square containing another smaller square
+//    An square containing another smaller square and multiple triangles
 {"Figure" :
   {
     "Description" : "Irregular pentagon in which each vertex is connected to each other.",
@@ -21,62 +21,51 @@
 		},
 	    {
 	      "name" : "B",
-		  "x" : 2,
+		  "x" : 5,
    	      "y" : 5
 		},
 	    {
 	      "name" : "C",
-		  "x" : 3,
-   	      "y" : 5
+		  "x" : 5,
+   	      "y" : 1
 		},
         {
           "name" : "D",
-          "x" : 4,
-          "y" : 5
+          "x" : 1,
+          "y" : 1
         },
         {
           "name" : "E",
-          "x" : 5,
-          "y" : 5
+          "x" : 2,
+          "y" : 4
         },
         {
           "name" : "F",
-          "x" : 5,
-          "y" : 1
+          "x" : 4,
+          "y" : 4
         },
         {
           "name" : "G",
-          "x" : 4,
-          "y" : 1
+          "x" : 2,
+          "y" : 2
         },
         {
           "name" : "H",
-          "x" : 3,
-          "y" : 1
-        },
-        {
-          "name" : "I",
-          "x" : 2,
-          "y" : 1
-        },
-        {
-          "name" : "J",
-          "x" : 1,
-          "y" : 1
+          "x" : 4,
+          "y" : 2
         }
 	  ],
 
     "Segments" :
       [
-        {"A" : ["B", "F", "G"] },
-  	    {"B" : ["C", "I"]},
-        {"C" : ["D", "H"] },
-        {"D" : ["E", "G"]},
-        {"E" : ["F", "J"] },
-        {"F" : ["G"] },
-        {"G" : ["H"]},
-        {"H" : ["I"]},
-        {"I" : ["J"]}
+        {"A" : ["B", "C", "D"] },
+  	    {"B" : ["C", "D"]},
+        {"C" : ["C"] },
+        {"D" : []},
+        {"E" : ["F", "H", "G"] },
+        {"F" : ["H", "G"] },
+        {"G" : []},
+        {"H" : ["G"]}
       ]
   }
 }
